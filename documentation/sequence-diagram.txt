@@ -1,0 +1,40 @@
+@startuml
+
+title Sequence diagram for use of Passport in data-connect-trino
+
+actor UserA #Blue
+participant PassportUI #Cyan
+participant Jupyter #Magenta 
+participant dataconnecttrino #Cyan
+participant trino #Cyan
+participant FileBasedSystemAccessControl #Cyan
+participant PassportGroupProvider #Green
+participant ClearingHouse #Yellow
+
+UserA -> PassportUI:  credentials
+PassportUI -> UserA: Passport
+UserA -> Jupyter:  Passport
+Jupyter -> dataconnecttrino:  Query & Passport
+dataconnecttrino -> trino: Query & Passport
+trino -> PassportGroupProvider: Passport
+PassportGroupProvider -> ClearingHouse: Passport
+ClearingHouse --> PassportGroupProvider: GroupList
+PassportGroupProvider --> trino: GroupList
+trino --> FileBasedSystemAccessControl: GroupList
+FileBasedSystemAccessControl --> trino: access
+trino --> dataconnecttrino: query Results & nextPageURL
+dataconnecttrino --> Jupyter: query Results & nextPageURL
+Jupyter -> dataconnecttrino:  nextPageURL
+dataconnecttrino -> trino: nextPageURL
+trino --> dataconnecttrino: query Results
+dataconnecttrino --> Jupyter: query Results
+
+legend right
+    |Color| Type |
+    |<#Magenta>| User generated|
+    |<#Cyan>| Existing implementations|
+    |<#Green>| Custom addition - trino plugin|
+    |<#Yellow>| Custom addition - REST service|
+endlegend
+
+@enduml
