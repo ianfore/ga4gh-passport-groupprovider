@@ -4,7 +4,7 @@
 
 #  ga4gh-passport-groupprovider
 
-An implementation of a Trino GroupProvider that accepts a GA4GH Passport as a 'user'. It implements the getGroups(user) method of GroupProvider by calling a Passport Clearing House which validates the Passport and returns the list of visas which the Passport contains.
+An implementation of a Trino GroupProvider plugin that accepts a GA4GH Passport as a 'user'. It implements the getGroups(user) method of GroupProvider by calling a Passport Clearing House which validates the Passport and returns the list of visas which the Passport contains.
 
 This is typically deployed using Trino [File-based Access Control](https://trino.io/docs/current/security/file-system-access-control.html). The DataConnect/Trino catalogs, schemas and tables to which the Passport grants access are specified in a rules file - using the group field. Group names used in the rules file should be the same as the names returned by the Clearing House. These names are the visa names in the Passport. This provides a straightforward mapping of visas to the DataConnect/Trino objects to which they grant access.
 
